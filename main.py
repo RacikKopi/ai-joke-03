@@ -18,5 +18,16 @@ JOKE = "My coding agent wrote a 200-line function, then left a TODO above it: 'i
 
 OUTPUT_DIR = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
 
-with open(os.path.join(OUTPUT_DIR, "entry.txt"), "w", encoding="utf-8", newline="") as f:
-    f.write(JOKE)
+
+def main():
+    # The joke must be 1-280 characters (competition requirement); fail loudly
+    # instead of writing an invalid entry.
+    if not 1 <= len(JOKE) <= 280:
+        raise ValueError("joke must be 1-280 characters, got %d" % len(JOKE))
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+    with open(os.path.join(OUTPUT_DIR, "entry.txt"), "w", encoding="utf-8", newline="") as f:
+        f.write(JOKE)
+
+
+if __name__ == "__main__":
+    main()
